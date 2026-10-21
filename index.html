@@ -6,20 +6,17 @@
 <style>
 *{box-sizing:border-box}
 :root{color-scheme:dark;--purple:#251344;--orange:#ff8a24;--lavender:#d9c5ff}
-body{margin:0;min-height:100vh;display:grid;place-items:center;padding:22px;background:radial-gradient(ellipse at 76% 8%,#ffb43d 0, #7a3b70 9%,transparent 24%),radial-gradient(ellipse at 10% 30%,#3f2b77 0,transparent 38%),linear-gradient(145deg,#09081f,#1a1038 55%,#090819);color:#fff4df;font-family:system-ui,Arial,sans-serif;overflow-x:hidden;position:relative}
-body:before,body:after{position:fixed;z-index:0;pointer-events:none;font-size:clamp(4rem,10vw,8rem);opacity:.78;filter:drop-shadow(0 0 18px #ff6a20)}
-body:before{content:"🎃";left:2vw;bottom:1vh;transform:rotate(-12deg)}
-body:after{content:"🦇";right:3vw;top:3vh;transform:rotate(12deg)}
-main{position:relative;z-index:1;width:min(100%,480px);text-align:center;padding:28px 22px 24px;border:1px solid #a77bce80;border-radius:26px;background:linear-gradient(160deg,#17102deF,#24133beF);box-shadow:0 20px 70px #0009,0 0 35px #9b54c455;backdrop-filter:blur(5px)}
+body{margin:0;min-height:100vh;display:grid;place-items:center;padding:22px;background-color:#100923;background-image:linear-gradient(90deg,rgba(10,5,25,.12),rgba(10,5,25,.28)),url("assets/fundo-halloween.png.png");background-size:cover;background-position:center;background-repeat:no-repeat;background-attachment:fixed;color:#fff4df;font-family:system-ui,Arial,sans-serif;overflow-x:hidden}
+main{position:relative;width:min(100%,480px);text-align:center;padding:28px 22px 24px;border:1px solid #d4a5ff80;border-radius:26px;background:rgba(20,10,39,.84);box-shadow:0 20px 70px #0009,0 0 30px #9b54c455}
 .tag{display:inline-block;background:#ff8a24;color:#28123b;padding:7px 14px;border-radius:20px;font-weight:900;letter-spacing:1.5px;font-size:.78rem;box-shadow:0 0 20px #ff8a2460}
-h1{margin:17px 0 6px;font-size:clamp(1.7rem,6vw,2.25rem);text-shadow:0 0 22px #ff8a2460}p{color:#d9c5ff;margin-top:8px}
-.stats{display:flex;justify-content:center;gap:9px;margin:20px 0}.stat{flex:1;background:#ffffff0d;border:1px solid #b99be544;border-radius:14px;padding:11px 6px}.stat strong{display:block;font-size:1.35rem;color:#ffb15c}.stat span{font-size:.8rem;color:#d9c5ff}
+h1{margin:17px 0 6px;font-size:clamp(1.7rem,6vw,2.25rem);text-shadow:0 2px 12px #000}p{color:#e2d2ff;margin-top:8px}
+.stats{display:flex;justify-content:center;gap:9px;margin:20px 0}.stat{flex:1;background:#ffffff12;border:1px solid #b99be566;border-radius:14px;padding:11px 6px}.stat strong{display:block;font-size:1.35rem;color:#ffb15c}.stat span{font-size:.8rem;color:#e2d2ff}
 .board{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
-.card{aspect-ratio:1;border:1px solid #c8a8ff80;border-radius:15px;background:linear-gradient(145deg,#7544a6,#39215f);color:white;font-size:clamp(1.5rem,7vw,2.25rem);cursor:pointer;box-shadow:0 5px 0 #160c2c,0 0 15px #8d4fd522;transition:transform .16s,filter .16s,border-color .16s}
+.card{aspect-ratio:1;border:1px solid #d5b5ff;border-radius:15px;background:linear-gradient(145deg,#7544a6,#39215f);color:white;font-size:clamp(1.5rem,7vw,2.25rem);cursor:pointer;box-shadow:0 5px 0 #160c2c,0 0 15px #8d4fd522;transition:transform .16s,filter .16s,border-color .16s}
 .card:hover{transform:translateY(-3px);filter:brightness(1.2);border-color:#ffb15c}.card.open,.card.matched{background:linear-gradient(145deg,#fff0d2,#e7d4ff);color:#28123b;box-shadow:0 4px 0 #a58ac4}.card.matched{outline:2px solid #8fe0a2}
-#message{min-height:44px;font-weight:700;margin:19px 0 12px;color:#ffce91;line-height:1.45}
+#message{min-height:44px;font-weight:700;margin:19px 0 12px;color:#ffce91;line-height:1.45;text-shadow:0 1px 4px #000}
 button.action{border:0;border-radius:25px;padding:12px 17px;margin:4px;background:linear-gradient(135deg,#ff9b35,#ff6a24);color:#28123b;font-size:.95rem;font-weight:800;cursor:pointer;box-shadow:0 4px 0 #a83b18;transition:transform .15s}button.action:hover{transform:translateY(-2px)}button.secondary{background:#3d2b5e!important;color:#fff4df!important;box-shadow:0 4px 0 #17102b!important;border:1px solid #ad8bd8}
-@media(max-width:360px){main{padding:22px 14px}.board{gap:7px}.stats{gap:5px}.card{border-radius:11px}}
+@media(max-width:360px){body{padding:12px;background-attachment:scroll}main{padding:22px 14px}.board{gap:7px}.stats{gap:5px}.card{border-radius:11px}}
 </style></head>
 <body><main>
 <span class="tag">🎃 FASE 1 · FÁCIL 🎃</span><h1>🧠 Jogo da Memória</h1><p>Encontre os 4 pares de animais!</p>
