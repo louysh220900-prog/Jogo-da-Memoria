@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jogo da Memória</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; font-family: system-ui, Arial, sans-serif; background: #f2edff; color: #292044; display: grid; place-items: center; padding: 24px; }
+    main { width: min(100%, 520px); text-align: center; }
+    h1 { margin-bottom: 8px; }
+    p { color: #655a7b; }
+    #status { font-weight: 700; margin: 18px 0; }
+    .board { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .card { min-height: 90px; border: 0; border-radius: 12px; background: #7453c6; color: white; font-size: 2rem; cursor: pointer; box-shadow: 0 4px 0 #4d348d; }
+    .card.revealed, .card.matched { background: white; color: #292044; box-shadow: 0 4px 0 #d7cbed; }
+    .card.matched { outline: 2px solid #57a879; }
+    #restart { margin-top: 24px; border: 0; border-radius: 999px; padding: 12px 22px; background: #39266d; color: white; font-size: 1rem; cursor: pointer; }
+    @media (max-width: 400px) { .card { min-height: 68px; font-size: 1.6rem; } }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>🧠 Jogo da Memória</h1>
+    <p>Encontre todos os pares iguais!</p>
+    <div id="status" aria-live="polite">Pares encontrados: 0 de 6</div>
+    <div class="board" id="board" aria-label="Cartas do jogo"></div>
+    <button id="restart" type="button">Recomeçar</button>
+  </main>
+  <script>
+    const symbols = ["🐶", "🐱", "🐸", "🦊", "🐼", "🦁"];
+    const board = document.querySelector("#board");
+    const status = document.querySelector("#status");
+    let first = null, locked = false, pairs = 0, moves = 0;
+    function startGame() {
+      board.innerHTML = "";
+      first = null; locked = false; pairs = 0; moves = 0;
+      status.textContent = "Pares encontrados: 0 de 6 · Jogadas: 0";
+      [...symbols, ...symbols].sort(() => Math.random() - 0.5).forEach((symbol, i) => {
+        const card = document.createElement("button");
+        card.className = "card";
+        card.type = "button";
+        card.textContent = "?";
+        card.setAttribute("aria-label", "Carta fechada");
+        card.dataset.symbol = symbol;
+        card.dataset.index = i;
+        card.addEventListener("click", () => flip(card));
+        board.appendChild(card);
+      });
+    }
+    function flip(card) {
+      if (locked || card.classList.contains("revealed") || card.classList.contains("matched")) return;
+      card.textContent = card.dataset.symbol;
+      card.classList.add("revealed");
+      card.setAttribute("aria-label", card.dataset.symbol);
+      if (!first) { first = card; return; }
+      moves++;
+      if (first.dataset.symbol === card.dataset.symbol) {
+        first.classList.replace("revealed", "matched");
+        card.classList.replace("revealed", "matched");
+        first = null; pairs++;
+        status.textContent = pairs === 6 ? `Parabéns! Você venceu em ${moves} jogadas! 🎉` : `Pares encontrados: ${pairs} de 6 · Jogadas: ${moves}`;
+      } else {
+        locked = true;
+        const previous = first;
+        first = null;
+        status.textContent = `Pares encontrados: ${pairs} de 6 · Jogadas: ${moves}`;
+        setTimeout(() => {
+          previous.textContent = "?"; card.textContent = "?";
+          previous.classList.remove("revealed"); card.classList.remove("revealed");
+          previous.setAttribute("aria-label", "Carta fechada"); card.setAttribute("aria-label", "Carta fechada");
+          locked = false;
+        }, 800);
+      }
+    }
+    document.querySelector("#restart").addEventListener("click", startGame);
+    startGame();
+  </script>
+</body>
+</html>
