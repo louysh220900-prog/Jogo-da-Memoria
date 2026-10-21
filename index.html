@@ -1,80 +1,21 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Jogo da Memória</title>
-  <style>
-    * { box-sizing: border-box; }
-    body { margin: 0; min-height: 100vh; font-family: system-ui, Arial, sans-serif; background: #f2edff; color: #292044; display: grid; place-items: center; padding: 24px; }
-    main { width: min(100%, 520px); text-align: center; }
-    h1 { margin-bottom: 8px; }
-    p { color: #655a7b; }
-    #status { font-weight: 700; margin: 18px 0; }
-    .board { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-    .card { min-height: 90px; border: 0; border-radius: 12px; background: #7453c6; color: white; font-size: 2rem; cursor: pointer; box-shadow: 0 4px 0 #4d348d; }
-    .card.revealed, .card.matched { background: white; color: #292044; box-shadow: 0 4px 0 #d7cbed; }
-    .card.matched { outline: 2px solid #57a879; }
-    #restart { margin-top: 24px; border: 0; border-radius: 999px; padding: 12px 22px; background: #39266d; color: white; font-size: 1rem; cursor: pointer; }
-    @media (max-width: 400px) { .card { min-height: 68px; font-size: 1.6rem; } }
-  </style>
-</head>
-<body>
-  <main>
-    <h1>🧠 Jogo da Memória</h1>
-    <p>Encontre todos os pares iguais!</p>
-    <div id="status" aria-live="polite">Pares encontrados: 0 de 6</div>
-    <div class="board" id="board" aria-label="Cartas do jogo"></div>
-    <button id="restart" type="button">Recomeçar</button>
-  </main>
-  <script>
-    const symbols = ["🐶", "🐱", "🐸", "🦊", "🐼", "🦁"];
-    const board = document.querySelector("#board");
-    const status = document.querySelector("#status");
-    let first = null, locked = false, pairs = 0, moves = 0;
-    function startGame() {
-      board.innerHTML = "";
-      first = null; locked = false; pairs = 0; moves = 0;
-      status.textContent = "Pares encontrados: 0 de 6 · Jogadas: 0";
-      [...symbols, ...symbols].sort(() => Math.random() - 0.5).forEach((symbol, i) => {
-        const card = document.createElement("button");
-        card.className = "card";
-        card.type = "button";
-        card.textContent = "?";
-        card.setAttribute("aria-label", "Carta fechada");
-        card.dataset.symbol = symbol;
-        card.dataset.index = i;
-        card.addEventListener("click", () => flip(card));
-        board.appendChild(card);
-      });
-    }
-    function flip(card) {
-      if (locked || card.classList.contains("revealed") || card.classList.contains("matched")) return;
-      card.textContent = card.dataset.symbol;
-      card.classList.add("revealed");
-      card.setAttribute("aria-label", card.dataset.symbol);
-      if (!first) { first = card; return; }
-      moves++;
-      if (first.dataset.symbol === card.dataset.symbol) {
-        first.classList.replace("revealed", "matched");
-        card.classList.replace("revealed", "matched");
-        first = null; pairs++;
-        status.textContent = pairs === 6 ? `Parabéns! Você venceu em ${moves} jogadas! 🎉` : `Pares encontrados: ${pairs} de 6 · Jogadas: ${moves}`;
-      } else {
-        locked = true;
-        const previous = first;
-        first = null;
-        status.textContent = `Pares encontrados: ${pairs} de 6 · Jogadas: ${moves}`;
-        setTimeout(() => {
-          previous.textContent = "?"; card.textContent = "?";
-          previous.classList.remove("revealed"); card.classList.remove("revealed");
-          previous.setAttribute("aria-label", "Carta fechada"); card.setAttribute("aria-label", "Carta fechada");
-          locked = false;
-        }, 800);
-      }
-    }
-    document.querySelector("#restart").addEventListener("click", startGame);
-    startGame();
-  </script>
-</body>
-</html>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jogo da Memória — Fase 1</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:20px;background:#f2edff;color:#30204e;font-family:Arial,sans-serif}main{width:min(100%,460px);text-align:center}.tag{background:#e1d4ff;padding:7px 13px;border-radius:20px;font-weight:bold;color:#59379c}h1{margin:20px 0 8px}.stats{display:flex;justify-content:center;gap:10px;margin:20px}.stat{background:white;border-radius:12px;padding:10px;min-width:90px}.stat strong{display:block;font-size:1.3rem}.board{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.card{aspect-ratio:1;border:0;border-radius:13px;background:#6e48b7;color:white;font-size:2rem;cursor:pointer;box-shadow:0 4px #482b83}.card.open,.card.matched{background:white;color:#30204e;box-shadow:0 4px #d5c5f1}.card.matched{outline:2px solid #60ad7d}#message{min-height:42px;font-weight:bold;margin:20px 0}button.action{border:0;border-radius:25px;padding:12px 18px;margin:4px;background:#30204e;color:white;font-size:1rem;cursor:pointer}.secondary{background:#e1d4ff!important;color:#30204e!important}@media(max-width:360px){.board{gap:7px}.card{font-size:1.6rem}}
+</style></head>
+<body><main>
+<span class="tag">FASE 1 · FÁCIL</span><h1>🧠 Jogo da Memória</h1><p>Encontre os 4 pares de animais!</p>
+<div class="stats"><div class="stat"><strong id="pairs">0/4</strong><span>Pares</span></div><div class="stat"><strong id="moves">0</strong><span>Jogadas</span></div><div class="stat"><strong id="time">0:00</strong><span>Tempo</span></div></div>
+<div class="board" id="board"></div><div id="message" role="status">Toque em duas cartas para começar.</div>
+<button class="action" id="restart">🔄 Reiniciar fase</button><button class="action secondary" id="rules">Como jogar?</button>
+</main>
+<script>
+const animals=["🐶","🐱","🐸","🦊"];const board=document.querySelector("#board");let first=null,locked=false,pairs=0,moves=0,seconds=0,timer=null,started=false;
+function shuffle(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function start(){clearInterval(timer);first=null;locked=false;pairs=0;moves=0;seconds=0;started=false;document.querySelector("#pairs").textContent="0/4";document.querySelector("#moves").textContent="0";document.querySelector("#time").textContent="0:00";document.querySelector("#message").textContent="Toque em duas cartas para começar.";board.innerHTML="";shuffle([...animals,...animals]).forEach((a,i)=>{let b=document.createElement("button");b.className="card";b.textContent="❔";b.dataset.animal=a;b.setAttribute("aria-label","Carta fechada");b.addEventListener("click",()=>flip(b));board.appendChild(b)})}
+function flip(c){if(locked||c.classList.contains("open")||c.classList.contains("matched"))return;if(!started){started=true;timer=setInterval(()=>{seconds++;document.querySelector("#time").textContent=Math.floor(seconds/60)+":"+String(seconds%60).padStart(2,"0")},1000)}c.classList.add("open");c.textContent=c.dataset.animal;if(!first){first=c;return}moves++;document.querySelector("#moves").textContent=moves;if(first.dataset.animal===c.dataset.animal){first.classList.replace("open","matched");c.classList.replace("open","matched");first.disabled=true;c.disabled=true;first=null;pairs++;document.querySelector("#pairs").textContent=pairs+"/4";if(pairs===4){clearInterval(timer);document.querySelector("#message").textContent="🎉 Você venceu a Fase 1! Parabéns!"}else document.querySelector("#message").textContent="Acertou! Procure o próximo par."}else{locked=true;let prev=first;first=null;document.querySelector("#message").textContent="Não combinou! Tente novamente.";setTimeout(()=>{prev.classList.remove("open");c.classList.remove("open");prev.textContent="❔";c.textContent="❔";locked=false},850)}}
+document.querySelector("#restart").addEventListener("click",start);document.querySelector("#rules").addEventListener("click",()=>document.querySelector("#message").textContent="Vire duas cartas por vez. Os pares iguais ficam abertos. Encontre os 4 pares para vencer!");start();
+</script></body></html>
